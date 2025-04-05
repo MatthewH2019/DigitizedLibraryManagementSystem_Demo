@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="css/styles.css">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,13 +9,13 @@
 <body>
     <header>
         <h1>Welcome to the Digitized Library Management System</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="authors.html">Authors</a></li>
-                <!-- Add more links as needed -->
-            </ul>
-        </nav>
+        <div class="navbar">
+            <a href="index.html">Home</a>
+            <a href="authors.html">Authors</a>
+            <a href="books.html">Books</a>
+            <a href="create-account.html" class="button">Create Account</a>
+            <a href="login.html" class="button">Login</a>
+        </div>
     </header>
 
     <main>
@@ -24,12 +23,22 @@
             <h2>Library Dashboard</h2>
             <p>Manage and view the authors and their books in the digitized library system.</p>
         </section>
+
+        <section id="authors-preview">
+            <h3>Author Management</h3>
+            <p>Click <a href="authors.html">here</a> to view, add, edit, or delete authors.</p>
+        </section>
+
+        <section id="books-preview">
+            <h3>Book Management</h3>
+            <p>Click <a href="books.html">here</a> to view, add, edit, or delete books.</p>
+        </section>
     </main>
 
     <footer>
         <p>&copy; 2025 Digitized Library Management System</p>
     </footer>
-    
+
     <script src="js/authors.js"></script>
 </body>
 </html>
