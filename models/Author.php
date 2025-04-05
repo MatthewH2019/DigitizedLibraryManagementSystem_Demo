@@ -16,7 +16,7 @@ class Author{
     // Get Authors
     public function read_Authors(){
         // Create Query
-        $query = 'SELECT a.authorID, a.name FROM ' . $this->table . ' a';
+        $query = 'SELECT a.authorID, a.name FROM ' . $this->table . ' a ORDER BY a.name ASC';
 
         // Prepare Statement
         $stmt = $this->conn->prepare($query);
@@ -30,7 +30,7 @@ class Author{
     // Get Single Author
     public function read_SingleAuthor(){
         // Create Query
-        $query = 'SELECT a.authorID, a.name FROM ' . $this->table . ' a WHERE a.authorID = ?';
+        $query = 'SELECT a.authorID, a.name FROM ' . $this->table . ' a WHERE a.name = ?';
 
         // Prepare Statement
         $stmt = $this->conn->prepare($query);
@@ -135,13 +135,12 @@ class Author{
             echo json_encode(
                 array('message' => 'author_id Not found'));
             exit();
-        }
-        else{
-            // Place Holder Data
+        } else {
+            // Restore the author name we want to update to
             $this->author = $temp;
             
             // Create Query
-            $query = 'UPDATE ' . $this->table . ' SET author = :author WHERE id = :id';
+            $query = 'UPDATE ' . $this->table . ' SET name = :name WHERE authorID = :authorID';
 
             // Prepare Statement
             $stmt = $this->conn->prepare($query);
@@ -158,13 +157,13 @@ class Author{
                 $this->author = $temp;
 
                 // Create Query
-                $query = 'SELECT authors.id, authors.name FROM authors WHERE authors.name = ?';
+                $query = 'SELECT a.authorID, a.name FROM ' . $this->table . ' a WHERE a.authorID = ?';
 
                 // Prepare Statement
                 $stmt = $this->conn->prepare($query);
 
                 // Bind ID
-                $stmt->bindParam(1, $this->author);
+                $stmt->bindParam(1, $this->id);
                 
                 // Execute Query
                 $stmt->execute();
@@ -184,72 +183,52 @@ class Author{
     // Delete Author
     public function delete()
     {
-        // Place Holder Data
-        $temp = $this->id;
-
-        // Create Query
-        $query = 'SELECT a.authorID FROM ' . $this->table . ' a WHERE a.authorID = ?';
+        // Check which identifier is being used
+        if ($this->id) {
+            $query = 'SELECT a.authorID FROM ' . $this->table . ' a WHERE a.authorID = ?';
+            $param = $this->id;
+        } else {
+            $query = 'SELECT a.authorID FROM ' . $this->table . ' a WHERE a.name = ?';
+            $param = $this->author;
+        }
 
         // Prepare Statement
         $stmt = $this->conn->prepare($query);
 
-        // Bind ID
-        $stmt->bindParam(1, $this->id);
+        // Bind parameter
+        $stmt->bindParam(1, $param);
 
         // Execute Query
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $this->id = $row;
-        if($this->id === false){ 
+        // If no author found, return error
+        if($row === false){ 
             echo json_encode(
-                array('message' => 'author_id Not found'));
+                array('message' => 'Author not found')
+            );
             exit();
-        } else {
-            // Place Holder Data
-            $this->id = $temp;
-
-            // Create Query
-            $query = 'DELETE FROM quotes WHERE author_id = :id';
-
-            // Prepare Statement
-            $stmt = $this->conn->prepare($query);
-
-            // Clean data
-            $this->id = htmlspecialchars(strip_tags($this->id));
-
-            // Bind data
-            $stmt->bindParam(':authorID', $this->id);
+        } 
         
-            if($stmt->execute()){
-                // Place Holder Data
-                $this->id = $temp;
-            
-                // Create Query
-                $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
-
-                // Prepare Statement
-                $stmt = $this->conn->prepare($query);
-
-                // Clean data
-                $this->id = htmlspecialchars(strip_tags($this->id));
-
-                // Bind data
-                $stmt->bindParam(':authorID', $this->id);
-                
-                // Execute Query
-                if($stmt->execute()){
-                    $array = array('id' => $this->id);
-                    echo(json_encode($array));
-                    return true;
-                } else {
-                    printf("Error: %s.\n", $stmt->error);
-                    return false;
-                }
-            } else {
-                printf("Error: %s.\n", $stmt->error);
-                return false;
-            }	
+        // Store the author ID for deletion
+        $author_id = $row['authorid'];
+        
+        // Now delete the author
+        $query = 'DELETE FROM ' . $this->table . ' WHERE authorid = ?';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $author_id);
+        
+        // Execute Query
+        if($stmt->execute()){
+            $array = array(
+                'id' => $author_id,
+                'message' => 'Author Deleted'
+            );
+            echo(json_encode($array));
+            return true;
+        } else {
+            printf("Error: %s.\n", $stmt->error);
+            return false;
         }
     }
 }

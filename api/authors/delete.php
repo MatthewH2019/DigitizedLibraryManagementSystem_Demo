@@ -16,13 +16,16 @@ $author = new Author($db);
 // Get Raw Author Data
 $data = json_decode(file_get_contents("php://input"));
 
-if(!get_object_vars($data) || !isset($data->id)) {
-    echo json_encode(array('message' => 'Missing Required Parameters'));
-} else {
+if(isset($data->id)) {
     $author->id = $data->id;
-
-    // Delete Author
-    if(!$author->delete()) {
-        echo json_encode(array('message' => 'Author Not Deleted'));
-    }
+} elseif(isset($data->author)) {
+    $author->author = $data->author;
+} else {
+    echo json_encode(
+        array('message' => 'Missing required parameter: id or author name')
+    );
+    exit();
 }
+
+// Delete author
+$author->delete();
