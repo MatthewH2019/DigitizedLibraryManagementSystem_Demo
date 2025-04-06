@@ -26,7 +26,7 @@ if($num > 0) {
         
         $book_item = array(
             'id' => $bookid,
-            'title' => $booktitle,
+            'title' => $title,
             'genre' => $bookgenre,
             'isbn' => $isbn,
             'publication_year' => $publicationyear,
