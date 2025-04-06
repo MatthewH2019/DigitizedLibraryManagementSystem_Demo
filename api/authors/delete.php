@@ -28,4 +28,4 @@ if(isset($data->id)) {
 }
 
 // Delete author
-$author->delete();
+$author->deleteAuthor();

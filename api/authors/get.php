@@ -15,7 +15,7 @@ $author = new Author($db);
 $author->id = isset($_GET['id']) ? $_GET['id'] :  die();
 
 // Get Author
-$author->read_SingleAuthor();
+$author->getSingleAuthor();
 
 if($author->author === false) {
     echo json_encode(array('message' => 'author_id Not Found'));

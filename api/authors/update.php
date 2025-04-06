@@ -23,7 +23,7 @@ if(!get_object_vars($data) || !isset($data->id) || !isset($data->author)) {
     $author->author = $data->author;
 
     // Update Author
-    if(!$author->update()) {
+    if(!$author->updateAuthor()) {
         echo json_encode(array('message' => 'Author Not Updated'));
     }
 }

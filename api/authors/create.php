@@ -22,7 +22,7 @@ if(!get_object_vars($data) || !isset($data->author)) {
     $author->author = $data->author;
 
     // Create Author
-    if(!$author->create()) {
+    if(!$author->createAuthor()) {
         echo json_encode(array('message' => 'Author Not Created'));
     }
 }

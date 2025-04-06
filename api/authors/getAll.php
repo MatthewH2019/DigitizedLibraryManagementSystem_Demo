@@ -8,7 +8,7 @@ $db = $database->connect();
 // Instantiate an Author Object
 $author = new Author($db);
 
-$result = $author->read_authors();
+$result = $author->getAuthors();
 $num = $result->rowCount();
 
 // Check And Read Authors

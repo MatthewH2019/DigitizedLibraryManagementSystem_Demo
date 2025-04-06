@@ -13,8 +13,8 @@ class Author{
         $this->conn = $db;
     }
 
-    // Get Authors
-    public function read_Authors(){
+    // Get All Authors
+    public function getAuthors(){
         // Create Query
         $query = 'SELECT a.authorID, a.name FROM ' . $this->table . ' a ORDER BY a.name ASC';
 
@@ -28,7 +28,7 @@ class Author{
     }
 
     // Get Single Author
-    public function read_SingleAuthor(){
+    public function getSingleAuthor(){
         // Create Query
         $query = 'SELECT a.authorID, a.name FROM ' . $this->table . ' a WHERE a.name = ?';
 
@@ -46,7 +46,7 @@ class Author{
     }
 
     // Create Author
-    public function create(){
+    public function createAuthor(){
         // Place Holder Data
         $temp = $this->author;
 
@@ -112,7 +112,7 @@ class Author{
     }
 
     // Update Autor
-	public function update()
+	public function updateAuthor()
 	{
         // Place Holder Data
 		$temp = $this->author;
@@ -181,7 +181,7 @@ class Author{
     }
 
     // Delete Author
-    public function delete()
+    public function deleteAuthor()
     {
         // Check which identifier is being used
         if ($this->id) {
