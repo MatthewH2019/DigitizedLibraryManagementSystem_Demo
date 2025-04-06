@@ -4,9 +4,14 @@ class Books{
     private $conn;
     private $table = 'books';
 
-    // Author Properties
-    public $id;
-    public $author;
+    // Book Properties
+    public $bookid;
+    public $authorid;
+    public $booktitle;
+    public $bookgenre;
+    public $isbn;
+    public $publicationyear;
+    public $availability;
 
     // Constructor with Data Base
     public function __construct($db){
@@ -14,13 +19,13 @@ class Books{
     }
 
     // Get All Books
-    public function read_Authors()
+    public function getBooks()
     {
        
     }
 
-    // Find 
-    public function read_SingleAuthor()
+    // Find Books By: Author, Title, Genre, ISBN, Publication Year, or Availabilty
+    public function getSpecificBook()
     {
         
     }
