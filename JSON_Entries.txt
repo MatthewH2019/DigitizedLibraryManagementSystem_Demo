@@ -1,0 +1,40 @@
+Book: create()
+{
+  "title": "East of Eden",
+  "isbn": "9780140186390", 
+  "genre": "Romance",
+  "publication_year": 1952,
+  "authors": ["John Steinbeck"]
+}
+
+{
+  "title": "Of Mice and Men",
+  "isbn": "9780142000670", 
+  "genre": "Literary Fiction",
+  "publication_year": 1937,
+  "authors": []
+}
+
+{
+  "title": "Beloved",
+  "isbn": "9781400033416", 
+  "genre": "Historical Fiction",
+  "publication_year": 1987,
+  "authors": ["Toni Morrison"]
+}
+
+{
+  "title": "Song of Soloman",
+  "isbn": "9781400033423 ", 
+  "genre": "Historical Fiction",
+  "publication_year": 1987,
+  "authors": []
+}
+
+{
+  "title": "The Bluest Eye",
+  "isbn": "9780307278449 ", 
+  "genre": "Historical Fiction",
+  "publication_year": 1970,
+  "authors": []
+}

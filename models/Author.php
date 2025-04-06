@@ -213,21 +213,38 @@ class Author{
         // Store the author ID for deletion
         $author_id = $row['authorid'];
         
-        // Now delete the author
-        $query = 'DELETE FROM ' . $this->table . ' WHERE authorid = ?';
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $author_id);
+        // Start a transaction to ensure all deletions happen or none do
+        $this->conn->beginTransaction();
         
-        // Execute Query
-        if($stmt->execute()){
+        try {
+            // First, delete entries from the junction table
+            $query = 'DELETE FROM booksauthors WHERE authorid = ?';
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(1, $author_id);
+            $stmt->execute();
+            
+            // Now delete the author
+            $query = 'DELETE FROM ' . $this->table . ' WHERE authorid = ?';
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(1, $author_id);
+            $stmt->execute();
+            
+            // Commit the transaction
+            $this->conn->commit();
+            
             $array = array(
                 'id' => $author_id,
                 'message' => 'Author Deleted'
             );
             echo(json_encode($array));
             return true;
-        } else {
-            printf("Error: %s.\n", $stmt->error);
+        } 
+        catch (Exception $e) {
+            // Roll back the transaction if something failed
+            $this->conn->rollBack();
+            echo json_encode(array(
+                'message' => 'Error deleting author: ' . $e->getMessage()
+            ));
             return false;
         }
     }
