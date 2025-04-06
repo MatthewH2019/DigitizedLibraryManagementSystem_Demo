@@ -31,6 +31,18 @@
         <label for="book-author">Author:</label>
         <input type="text" id="book-author" name="author" required />
 
+        <label for="book-genre">Genre:</label>
+        <input type="text" id="book-genre" name="genre" required />
+
+        <label for="book-isbn">ISBN:</label>
+        <input type="text" id="book-isbn" name="isbn" required />
+
+        <label for="book-availability">Availability:</label>
+        <select id="book-availability" name="availability" required>
+          <option value="available">Available</option>
+          <option value="checked_out">Checked Out</option>
+        </select>
+
         <button type="submit">Add Book</button>
       </form>
     </section>
@@ -40,9 +52,11 @@
       <table id="books-table">
         <thead>
           <tr>
-            <th>ID</th>
+            <th>Genre</th>
             <th>Title</th>
-            <th>Author</th>
+            <th>Author(s)</th>
+            <th>ISBN</th>
+            <th>Availability</th>
             <th>Actions</th>
           </tr>
         </thead>
