@@ -1,0 +1,10 @@
+SetEnv USERNAME "digitizedlibrarymanagementsystemdatabase_v84f_user"
+
+SetEnv PASSWORD "NBEc0QCwAlI4bHilneQ5IM0SkcNYjU9t"
+
+SetEnv DBNAME "digitizedlibrarymanagementsystemdatabase_v84f"
+
+SetEnv HOST "dpg-cvnh2lfgi27c739in0kg-a.virginia-postgres.render.com"
+
+SetEnv PORT "5432"
+
