@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book Management</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Book Management</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="authors.html">Authors</a></li>
+        <li><a href="books.html">Books</a></li>
+        <li><a href="admin.html">Admin</a></li>
+        <li><a href="create-account.html">Create Account</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="book-form-section">
+      <h2>Add New Book</h2>
+      <form id="book-form">
+        <label for="book-title">Title:</label>
+        <input type="text" id="book-title" name="title" required />
+
+        <label for="book-author">Author:</label>
+        <input type="text" id="book-author" name="author" required />
+
+        <button type="submit">Add Book</button>
+      </form>
+    </section>
+
+    <section id="book-list-section">
+      <h2>Book List</h2>
+      <table id="books-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- JavaScript will populate this -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Digitized Library Management System</p>
+  </footer>
+
+  <script src="js/books.js"></script>
+</body>
+</html>
