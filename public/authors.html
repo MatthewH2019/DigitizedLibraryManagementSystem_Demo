@@ -2,50 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Author Management</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Author Directory</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Manage Authors</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="books.html">Books</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="container">
+        <div style="margin-bottom: 1em;">
+            <a href="index.html">
+                <button style="padding: 8px 16px; font-size: 14px;">Back to Home</button>
+            </a>
+        </div>
 
-    <main>
-        <section>
-            <h2>Add New Author</h2>
-            <form id="author-form">
-                <input type="text" id="author-name" placeholder="Author name" required>
-                <button type="submit">Add Author</button>
-            </form>
-        </section>
+        <h1>Author Directory</h1>
 
-        <section>
-            <h2>Author List</h2>
-            <table id="authors-table" border="1">
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search authors...">
+            <select id="searchType">
+                <option value="id">ID</option>
+                <option value="name">Name</option>
+            </select>
+            <button id="searchBtn">Search</button>
+            <button id="resetBtn">Show All</button>
+        </div>
+
+        <div class="table-container">
+            <table id="authorsTable">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Author rows will be added here dynamically -->
+                <tbody id="authorsTableBody">
+                    <!-- Authors will be loaded here dynamically -->
                 </tbody>
             </table>
-        </section>
-    </main>
+        </div>
 
-    <footer>
-        <p>&copy; 2025 Digitized Library Management System</p>
-    </footer>
+        <div id="loadingMessage">Loading authors...</div>
+        <div id="errorMessage"></div>
+    </div>
 
-    <script src="js/authors.js"></script>
+    <script src="authors.js"></script>
 </body>
 </html>

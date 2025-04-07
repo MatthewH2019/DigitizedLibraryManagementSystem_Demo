@@ -1,13 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Configuration
-    const API_BASE_URL = 'https://localhost/DigitizedLibraryManagementSystem_Demo/api/authors/';
-
+    const API_BASE_URL = 'https://localhost/DigitizedLibraryManagementSystem_Demo/api/authors/'; // Update with your actual API URL
+    
     // DOM Elements
     const authorsTableBody = document.getElementById('authorsTableBody');
     const loadingMessage = document.getElementById('loadingMessage');
     const errorMessage = document.getElementById('errorMessage');
     const searchInput = document.getElementById('searchInput');
-    const searchType = document.getElementById('searchType');
     const searchBtn = document.getElementById('searchBtn');
     const resetBtn = document.getElementById('resetBtn');
 
@@ -30,7 +29,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         fetch(API_BASE_URL)
             .then(response => {
-                if (!response.ok) throw new Error('Network response was not ok');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
                 return response.json();
             })
             .then(authors => {
@@ -50,15 +51,15 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const searchTypeValue = searchType.value;
-        const url = `${API_BASE_URL}/?${searchTypeValue}=${encodeURIComponent(searchValue)}`;
-
+        const url = `${API_BASE_URL}?author=${encodeURIComponent(searchValue)}`;
         showLoading(true);
         clearError();
 
         fetch(url)
             .then(response => {
-                if (!response.ok) throw new Error('Network response was not ok');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
                 return response.json();
             })
             .then(authors => {
@@ -81,13 +82,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function displayAuthors(authors) {
         clearTable();
-        const authorsArray = Array.isArray(authors) ? authors : (authors.data || []);
 
+        const authorsArray = Array.isArray(authors) ? authors : (authors.data || []);
+        
         authorsArray.forEach(author => {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${author.id || ''}</td>
-                <td>${author.name || ''}</td>
+                <td>${author.author || ''}</td>
             `;
             authorsTableBody.appendChild(row);
         });
