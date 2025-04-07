@@ -1,106 +1,113 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const authorsTable = document.getElementById("authors-table")?.getElementsByTagName("tbody")[0];
-    const authorForm = document.getElementById("author-form");
-    const authorNameInput = document.getElementById("author-name");
+document.addEventListener('DOMContentLoaded', function() {
+    // Configuration
+    const API_BASE_URL = 'https://localhost/DigitizedLibraryManagementSystem_Demo/api/authors/';
 
-    // Fetch and display all authors
-    function fetchAuthors() {
-        fetch("api/authors/getAll.php")
-            .then(response => response.json())
-            .then(data => {
-                if (authorsTable) {
-                    authorsTable.innerHTML = '';
-                    data.forEach(author => {
-                        const row = authorsTable.insertRow();
-                        row.innerHTML = `
-                            <td>${author.id}</td>
-                            <td>${author.name}</td>
-                            <td>
-                                <button onclick="editAuthor(${author.id}, '${author.name}')">Edit</button>
-                                <button onclick="deleteAuthor(${author.id})">Delete</button>
-                            </td>
-                        `;
-                    });
-                }
+    // DOM Elements
+    const authorsTableBody = document.getElementById('authorsTableBody');
+    const loadingMessage = document.getElementById('loadingMessage');
+    const errorMessage = document.getElementById('errorMessage');
+    const searchInput = document.getElementById('searchInput');
+    const searchType = document.getElementById('searchType');
+    const searchBtn = document.getElementById('searchBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    // Initialize
+    fetchAllAuthors();
+
+    // Event Listeners
+    searchBtn.addEventListener('click', performSearch);
+    resetBtn.addEventListener('click', fetchAllAuthors);
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            performSearch();
+        }
+    });
+
+    // Functions
+    function fetchAllAuthors() {
+        showLoading(true);
+        clearError();
+
+        fetch(API_BASE_URL)
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
             })
-            .catch(error => console.error("Error fetching authors:", error));
+            .then(authors => {
+                displayAuthors(authors);
+                showLoading(false);
+            })
+            .catch(error => {
+                showError('Error fetching authors: ' + error.message);
+                showLoading(false);
+            });
     }
 
-    // Add a new author
-    if (authorForm) {
-        authorForm.addEventListener("submit", function (e) {
-            e.preventDefault();
-            const name = authorNameInput.value.trim();
+    function performSearch() {
+        const searchValue = searchInput.value.trim();
+        if (!searchValue) {
+            fetchAllAuthors();
+            return;
+        }
 
-            if (!name) {
-                alert("Author name is required.");
-                return;
-            }
+        const searchTypeValue = searchType.value;
+        const url = `${API_BASE_URL}/?${searchTypeValue}=${encodeURIComponent(searchValue)}`;
 
-            fetch("api/authors/create.php", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ name }),
+        showLoading(true);
+        clearError();
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        fetchAuthors();
-                        authorNameInput.value = '';
-                    } else {
-                        alert("Failed to add author.");
-                    }
-                })
-                .catch(error => console.error("Error adding author:", error));
+            .then(authors => {
+                if (Array.isArray(authors) && authors.length > 0) {
+                    displayAuthors(authors);
+                } else if (authors.message) {
+                    showError(authors.message);
+                    clearTable();
+                } else {
+                    showError('No authors found matching your search criteria.');
+                    clearTable();
+                }
+                showLoading(false);
+            })
+            .catch(error => {
+                showError('Error searching authors: ' + error.message);
+                showLoading(false);
+            });
+    }
+
+    function displayAuthors(authors) {
+        clearTable();
+        const authorsArray = Array.isArray(authors) ? authors : (authors.data || []);
+
+        authorsArray.forEach(author => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${author.id || ''}</td>
+                <td>${author.name || ''}</td>
+            `;
+            authorsTableBody.appendChild(row);
         });
     }
 
-    // Edit author
-    window.editAuthor = function (id, currentName) {
-        const newName = prompt("Enter new name for the author:", currentName);
-        if (newName && newName.trim()) {
-            fetch("api/authors/update.php", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ id, name: newName.trim() }),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        fetchAuthors();
-                    } else {
-                        alert("Failed to update author.");
-                    }
-                })
-                .catch(error => console.error("Error updating author:", error));
-        }
-    };
+    function clearTable() {
+        authorsTableBody.innerHTML = '';
+    }
 
-    // Delete author
-    window.deleteAuthor = function (id) {
-        if (confirm("Are you sure you want to delete this author?")) {
-            fetch("api/authors/delete.php", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ id }),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        fetchAuthors();
-                    } else {
-                        alert("Failed to delete author.");
-                    }
-                })
-                .catch(error => console.error("Error deleting author:", error));
-        }
-    };
+    function showLoading(show) {
+        loadingMessage.style.display = show ? 'block' : 'none';
+    }
 
-    fetchAuthors();
+    function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
+    }
+
+    function clearError() {
+        errorMessage.textContent = '';
+        errorMessage.style.display = 'none';
+    }
 });
