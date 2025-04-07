@@ -5,6 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digitized Library Management System</title>
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+        }
+
+        header {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 1.5em 0;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 1em 0 0 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1em;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            padding: 0.5em 1em;
+            background-color: #3b82f6;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            background-color: #2563eb;
+        }
+
+        main {
+            padding: 2em;
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-top: 2em;
+        }
+
+        h2 {
+            color: #1e3a8a;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1em 0;
+            background-color: #1e3a8a;
+            color: white;
+            margin-top: 3em;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -24,7 +84,10 @@
     <main>
         <section id="home">
             <h2>About This System</h2>
-            <p>Welcome to the Digitized Library Management System. This platform allows you to browse and manage authors and books within a digital library environment. Use the navigation links above to explore different sections of the system.</p>
+            <p>
+                Welcome to the Digitized Library Management System. This platform enables you to seamlessly browse and manage information about books and authors in a digital environment.
+                Use the navigation links above to explore all features—from book browsing to account creation and admin access.
+            </p>
         </section>
     </main>
 
