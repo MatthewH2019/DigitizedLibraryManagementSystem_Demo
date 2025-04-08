@@ -1,0 +1,68 @@
+-- Create Users table
+CREATE TABLE "Users" (
+    userID SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    passwordHash VARCHAR(255) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    registrationDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    address TEXT
+);
+
+-- Create Books table
+CREATE TABLE Books (
+    bookID SERIAL PRIMARY KEY,
+    bookGenre VARCHAR(50),
+    title VARCHAR(255) NOT NULL,
+    ISBN VARCHAR(20) UNIQUE,
+    publicationYear INTEGER,
+    availability BOOLEAN DEFAULT TRUE
+);
+
+-- Create Authors table
+CREATE TABLE Authors (
+    authorID SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+-- Create a BooksAuthors junction table to handle many-to-many relationship
+CREATE TABLE BooksAuthors (
+    bookID INTEGER REFERENCES Books(bookID) ON DELETE CASCADE,
+    authorID INTEGER REFERENCES Authors(authorID) ON DELETE CASCADE,
+    PRIMARY KEY (bookID, authorID)
+);
+
+-- Create Loans table
+CREATE TABLE Loans (
+    loanID SERIAL PRIMARY KEY,
+    bookID INTEGER NOT NULL REFERENCES Books(bookID) ON DELETE RESTRICT,
+    userID INTEGER NOT NULL REFERENCES "Users"(userID) ON DELETE RESTRICT,
+    loanDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    dueDate TIMESTAMP NOT NULL,
+    isLate BOOLEAN DEFAULT FALSE,
+    CONSTRAINT unique_active_loan UNIQUE (bookID, userID, loanDate)
+);
+
+-- Create Reservations table
+CREATE TABLE Reservations (
+    reservationID SERIAL PRIMARY KEY,
+    bookID INTEGER NOT NULL REFERENCES Books(bookID) ON DELETE RESTRICT,
+    userID INTEGER NOT NULL REFERENCES "Users"(userID) ON DELETE RESTRICT,
+    reservationDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(20) NOT NULL DEFAULT 'pending'
+        CHECK (status IN ('pending', 'completed', 'canceled'))
+);
+
+-- Create Librarians table
+CREATE TABLE Librarians (
+    librarianID SERIAL PRIMARY KEY,
+    userID INTEGER NOT NULL REFERENCES "Users"(userID) ON DELETE RESTRICT UNIQUE,
+    libraryID INTEGER NOT NULL,
+    hireDate TIMESTAMP NOT NULL
+);
+
+-- Create index for common lookups
+CREATE INDEX idx_books_availability ON Books(availability);
+CREATE INDEX idx_loans_userid ON Loans(userID);
+CREATE INDEX idx_loans_bookid ON Loans(bookID);
+CREATE INDEX idx_reservations_status ON Reservations(status);
+CREATE INDEX idx_reservations_userid ON Reservations(userID);

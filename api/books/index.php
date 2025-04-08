@@ -12,7 +12,10 @@ if($method === 'OPTIONS'){
 if($method === "POST") { // POST Request
     include_once 'create.php';
 } else if ($method === "GET") { // GET Request
-    if(isset($_GET['id'])) {
+    if(isset($_GET['id']) || isset($_GET['title']) ||
+        isset($_GET['author']) || isset($_GET['author_name']) || isset($_GET['genre']) ||
+        isset($_GET['isbn']) || isset($_GET['year']) ||
+        isset($_GET['available'])) {
         include_once 'get.php';
     } else {
         include_once 'getALL.php';
