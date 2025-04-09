@@ -73,7 +73,7 @@ try {
 }
 catch (Exception $e) {
     // Catch any major failure during test flow
-    echo "\n⚠️ Test error: " . $e->getMessage() . "\n";
+    echo "\n Test error: " . $e->getMessage() . "\n";
 }
 finally {
     // Cleanup: ensure record is deleted even if test failed mid-way
