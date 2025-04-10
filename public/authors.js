@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Configuration
-    const API_BASE_URL = 'https://localhost/DigitizedLibraryManagementSystem_Demo/api/authors/'; // Update with your actual API URL
+    const API_BASE_URL = 'https://digitizedlibrarymanagementsystem-demo.onrender.com/api/authors/'; // Update with your actual API URL
     
     // DOM Elements
     const authorsTableBody = document.getElementById('authorsTableBody');
     const loadingMessage = document.getElementById('loadingMessage');
     const errorMessage = document.getElementById('errorMessage');
     const searchInput = document.getElementById('searchInput');
+    const searchType = document.getElementById('searchType');
     const searchBtn = document.getElementById('searchBtn');
     const resetBtn = document.getElementById('resetBtn');
 
@@ -51,7 +52,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const url = `${API_BASE_URL}?author=${encodeURIComponent(searchValue)}`;
+        const searchTypeValue = searchType.value;
+        const url = `${API_BASE_URL}/?${searchTypeValue}=${encodeURIComponent(searchValue)}`;
+        
         showLoading(true);
         clearError();
 
@@ -85,15 +88,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const authorsArray = Array.isArray(authors) ? authors : (authors.data || []);
         
+        // Check if we there are any authors to display
+        if (authorsArray.length === 0) {
+            showError('No authors found.');
+            return;
+        }
+
         authorsArray.forEach(author => {
             const row = document.createElement('tr');
+            const id = author.authorid;
+            const name = author.name;
+            
             row.innerHTML = `
-                <td>${author.id || ''}</td>
-                <td>${author.author || ''}</td>
+                <td>${id}</td>
+                <td>${name}</td>
             `;
             authorsTableBody.appendChild(row);
         });
     }
+
 
     function clearTable() {
         authorsTableBody.innerHTML = '';
