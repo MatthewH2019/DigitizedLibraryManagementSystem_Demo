@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Configuration
-    const API_BASE_URL = 'https://digitizedlibrarymanagementsystem-demo.onrender.com/api/books';
+    const API_BASE_URL = 'https://digitizedlibrarymanagementsystem-demo.onrender.com/api';
     
     // DOM Elements
     const booksTableBody = document.getElementById('booksTableBody');
