@@ -15,7 +15,7 @@ if($method === "POST") { // POST Request
     if(isset($_GET['id'])) {
         include_once 'get.php';
     } else {
-        include_once 'getALL.php';
+        include_once 'getAll.php';
     }
 } else if ($method === "PUT") { // PUT Request
     include_once 'update.php';

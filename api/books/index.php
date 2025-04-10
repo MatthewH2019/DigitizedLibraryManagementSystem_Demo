@@ -18,7 +18,7 @@ if($method === "POST") { // POST Request
         isset($_GET['available'])) {
         require_once 'get.php';
     } else {
-        require_once 'getALL.php';
+        require_once 'getAll.php';
     }
 } else if ($method === "PUT") { // PUT Request
     require_once 'update.php';
