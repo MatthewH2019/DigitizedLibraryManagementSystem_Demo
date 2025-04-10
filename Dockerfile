@@ -42,4 +42,4 @@ RUN a2enmod rewrite
 EXPOSE 80
 
 # By default, Apache is started automatically. You can change or customize the startup command if necessary.
-# CMD ["apache2-foreground"]
+CMD ["apache2-foreground"]
