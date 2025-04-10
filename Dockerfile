@@ -14,9 +14,9 @@ COPY . /var/www/html
 
 # Install any dependencies your PHP application may need
 # For example, if you're using Composer for dependency management:
-# RUN apt-get update && apt-get install -y \
-#     git \
-#     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN apt-get update && apt-get install -y \
+     git \
+     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # If you have specific PHP extensions required, you can install them here.
 # For example, if you need MySQL support:
