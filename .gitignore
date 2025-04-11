@@ -1,2 +1,4 @@
 /.htaccess
 books_api.txt
+.env
+vendor/
