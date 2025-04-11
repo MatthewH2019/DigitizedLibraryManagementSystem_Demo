@@ -1,5 +1,14 @@
 {
     "require": {
-        "vlucas/phpdotenv": "^5.6"
+      "vlucas/phpdotenv": "^5.6"
+    },
+    "scripts": {
+      "test": [
+        "php test_env.php",
+        "php test_db.php",
+        "php test_author.php",
+        "php test_book.php"
+      ],
+      "cleanup": "php remove_test_records.php"
     }
-}
+  }

@@ -288,7 +288,12 @@ class Book{
         
         if($this->availability !== null) {
             $updates[] = 'availability = :availability';
-            $this->availability = htmlspecialchars(strip_tags($this->availability));
+            if (is_bool($this->availability)) {
+                // Convert boolean to string acceptable for PostgreSQL (e.g., 'true' or 'false')
+                $this->availability = $this->availability ? 'true' : 'false';
+            } else {
+                $this->availability = htmlspecialchars(strip_tags($this->availability));
+            }
         }
         
         // If no updates were provided
