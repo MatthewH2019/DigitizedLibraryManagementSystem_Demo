@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Authors – Digitized Library Management System</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Authors Management</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="authors.html" class="active">Authors</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="author-list">
+      <h2>List of Authors</h2>
+      <table id="authors-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- will be populated by JS -->
+        </tbody>
+      </table>
+    </section>
+
+    <section id="author-form-section">
+      <h2>Add New Author</h2>
+      <form id="author-form">
+        <label for="author-name">Name</label>
+        <input type="text" id="author-name" name="author-name" required>
+        <button type="submit">Add Author</button>
+      </form>
+      <p id="form-feedback" class="feedback"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Digitized Library Management System</p>
+  </footer>
+
+  <script src="js/authors.js"></script>
+</body>
+</html>
