@@ -12,7 +12,7 @@ Render.com - https://render.com/
 git - https://git-scm.com/downloads/win
 Visual Studio - https://code.visualstudio.com/download
 
-Set up for local hosting:
+### Set up for local hosting:
 1. Activate free PostgresSQL online database hosted on [Render](render.com) or connect to existing database with provided ENV variables.[Render Documention:](https://render.com/docs/postgresql-creating-connecting)
 2. For database management, create a connection to Render database server through Azure Data Studio.
 ![connect](https://github.com/user-attachments/assets/f1830c1b-9cf0-44e5-bb9a-42a92cf5d66f)
