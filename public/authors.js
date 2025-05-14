@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Configuration
-    const API_BASE_URL = 'https://digitizedlibrarymanagementsystem-demo.onrender.com/api/authors/'; // Update with your actual API URL
+    // Configuration 
+    const API_BASE_URL = '/DigitizedLibraryManagementSystem_Demo/api/authors/getAll.php';
     
     // DOM Elements
     const authorsTableBody = document.getElementById('authorsTableBody');
@@ -27,68 +27,66 @@ document.addEventListener('DOMContentLoaded', function() {
     function fetchAllAuthors() {
         showLoading(true);
         clearError();
-
+        
+        console.log("Fetching data from:", API_BASE_URL);
+        
         fetch(API_BASE_URL)
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
+                console.log("Response status:", response.status);
+                
+                // Get raw text first for debugging
+                return response.text().then(text => {
+                    console.log("Raw response:", text);
+                    
+                    // Check if text is empty
+                    if (!text.trim()) {
+                        throw new Error("Empty response received from server");
+                    }
+                    
+                    try {
+                        // Try to parse the JSON
+                        return JSON.parse(text);
+                    } catch (err) {
+                        console.error("JSON parse error:", err);
+                        throw new Error(`JSON parsing failed: ${err.message}. Raw: ${text.substr(0, 100)}...`);
+                    }
+                });
             })
             .then(authors => {
+                console.log("Parsed data:", authors);
                 displayAuthors(authors);
                 showLoading(false);
             })
             .catch(error => {
+                console.error("Fetch error:", error);
                 showError('Error fetching authors: ' + error.message);
-                showLoading(false);
-            });
-    }
-
-    function performSearch() {
-        const searchValue = searchInput.value.trim();
-        if (!searchValue) {
-            fetchAllAuthors();
-            return;
-        }
-
-        const searchTypeValue = searchType.value;
-        const url = `${API_BASE_URL}/?${searchTypeValue}=${encodeURIComponent(searchValue)}`;
-        
-        showLoading(true);
-        clearError();
-
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(authors => {
-                if (Array.isArray(authors) && authors.length > 0) {
-                    displayAuthors(authors);
-                } else if (authors.message) {
-                    showError(authors.message);
-                    clearTable();
-                } else {
-                    showError('No authors found matching your search criteria.');
-                    clearTable();
-                }
-                showLoading(false);
-            })
-            .catch(error => {
-                showError('Error searching authors: ' + error.message);
                 showLoading(false);
             });
     }
 
     function displayAuthors(authors) {
         clearTable();
-
-        const authorsArray = Array.isArray(authors) ? authors : (authors.data || []);
         
-        // Check if we there are any authors to display
+        console.log("Type of authors:", typeof authors);
+        
+        // Handle different response formats
+        let authorsArray;
+        
+        if (Array.isArray(authors)) {
+            authorsArray = authors;
+        } else if (authors.data && Array.isArray(authors.data)) {
+            authorsArray = authors.data;
+        } else if (typeof authors === 'object' && authors.message) {
+            // API returned a message object (like "No Authors found")
+            showError(authors.message);
+            return;
+        } else {
+            console.warn("Unexpected data format:", authors);
+            showError('Received data in unexpected format');
+            return;
+        }
+        
+        // Check if we have any authors to display
         if (authorsArray.length === 0) {
             showError('No authors found.');
             return;
@@ -96,8 +94,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         authorsArray.forEach(author => {
             const row = document.createElement('tr');
-            const id = author.authorid;
-            const name = author.name;
+            
+            // Handle different property names
+            const id = author.id || author.authorid || '';
+            const name = author.author || author.name || '';
             
             row.innerHTML = `
                 <td>${id}</td>
@@ -106,7 +106,6 @@ document.addEventListener('DOMContentLoaded', function() {
             authorsTableBody.appendChild(row);
         });
     }
-
 
     function clearTable() {
         authorsTableBody.innerHTML = '';

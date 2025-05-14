@@ -24,26 +24,24 @@ class Book{
     public $authorNames = [];
 
     // Get All Books
-    public function getBooks()
-    {
-        // Create query with join to get author information
-        $query = 'SELECT b.bookid, b.title, b.bookgenre, b.isbn, b.publicationyear, b.availability,
-            string_agg(a.authorID::text, \',\') as author_ids, string_agg(a.name, \',\') as author_names
-            FROM ' . $this->table . ' b
-            LEFT JOIN booksauthors ba ON b.bookid = ba.bookid
-            LEFT JOIN authors a ON ba.authorid = a.authorID
-            GROUP BY b.bookid, b.title, b.bookgenre, b.isbn, b.publicationyear, b.availability
-            ORDER BY b.title ASC';
-                 
-        
-        // Prepare statement
-        $stmt = $this->conn->prepare($query);
-        
-        // Execute query
-        $stmt->execute();
-        
-        return $stmt;
-    }
+    public function getBooks() {
+    // Create query with join to get author information
+    $query = 'SELECT b.bookid, b.title, b.bookgenre, b.isbn, b.publicationyear, b.availability,
+        string_agg(a.authorID::text, \',\') as author_ids, string_agg(a.name, \',\') as author_names
+        FROM ' . $this->table . ' b
+        LEFT JOIN booksauthors ba ON b.bookid = ba.bookid
+        LEFT JOIN authors a ON ba.authorid = a.authorID
+        GROUP BY b.bookid, b.title, b.bookgenre, b.isbn, b.publicationyear, b.availability
+        ORDER BY b.title ASC';
+    
+    // Prepare statement
+    $stmt = $this->conn->prepare($query);
+    
+    // Execute query
+    $stmt->execute();
+    
+    return $stmt;
+}
 
     // Find Books By: Author, Title, Genre, ISBN, Publication Year, or Availability
     public function getSpecificBook()

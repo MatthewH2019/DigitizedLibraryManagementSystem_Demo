@@ -6,81 +6,53 @@
     <title>Admin Dashboard - Digitized Library Management System</title>
     <link rel="stylesheet" href="css/styles.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-        }
-
-        header {
-            background-color: #1e3a8a;
-            color: white;
-            padding: 1.5em 0;
-            text-align: center;
-        }
-
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 1em 0 0 0;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1em;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: white;
-            padding: 0.5em 1em;
-            background-color: #3b82f6;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        nav ul li a:hover,
-        nav ul li a.active {
-            background-color: #2563eb;
-        }
-
-        main {
-            padding: 2em;
-            max-width: 800px;
-            margin: 0 auto;
+        .admin-card {
             background-color: white;
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            margin-top: 2em;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
         }
-
-        h2 {
-            color: #1e3a8a;
+        
+        .admin-card:hover {
+            transform: translateY(-5px);
         }
-
-        h3 {
-            color: #2563eb;
+        
+        .admin-card h3 {
+            color: #0057b7;
+            margin-top: 0;
         }
-
-        p {
-            font-size: 1.1em;
-            margin-top: 1em;
+        
+        .admin-card a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #0057b7;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
         }
-
-        a {
-            color: #2563eb;
+        
+        .admin-card a:hover {
+            background-color: #003d82;
             text-decoration: none;
         }
-
-        a:hover {
-            text-decoration: underline;
+        
+        .admin-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
         }
-
-        footer {
-            text-align: center;
-            padding: 1em 0;
-            background-color: #1e3a8a;
-            color: white;
-            margin-top: 3em;
+        
+        .admin-card {
+            flex: 1 1 calc(50% - 20px);
+            min-width: 300px;
+        }
+        
+        .admin-card p {
+            color: #666;
         }
     </style>
 </head>
@@ -92,6 +64,7 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="authors.html">Authors</a></li>
                 <li><a href="books.html">Books</a></li>
+                <li><a href="admin.html" class="active">Admin</a></li>
             </ul>
         </nav>
     </header>
@@ -100,16 +73,26 @@
         <section id="admin-dashboard">
             <h2>Library Dashboard</h2>
             <p>Manage and view the authors and their books in the digitized library system.</p>
-        </section>
+            
+            <div class="admin-cards">
+                <div class="admin-card">
+                    <h3>Author Management</h3>
+                    <p>Add, edit, view, or delete authors in the library system. Manage author information and see which books are associated with each author.</p>
+                    <a href="authors.html">Manage Authors</a>
+                </div>
 
-        <section id="admin-authors">
-            <h3>Author Management</h3>
-            <p><a href="authors.html">Click here to view, add, edit, or delete authors.</a></p>
-        </section>
-
-        <section id="admin-books">
-            <h3>Book Management</h3>
-            <p><a href="books.html">Click here to view, add, edit, or delete books.</a></p>
+                <div class="admin-card">
+                    <h3>Book Management</h3>
+                    <p>Add, edit, view, or delete books in the library system. Manage book details, availability, and associate books with authors.</p>
+                    <a href="books-admin.html">Manage Books</a>
+                </div>
+                
+                <div class="admin-card">
+                    <h3>User Management</h3>
+                    <p>Manage user accounts, permissions, and access to the library system.</p>
+                    <a href="#" onclick="alert('This feature is coming soon!'); return false;">Manage Users</a>
+                </div>
+            </div>
         </section>
     </main>
 
